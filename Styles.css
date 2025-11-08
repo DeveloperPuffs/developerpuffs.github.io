@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+:root {
+        --foreground-color: rgba(255, 255, 255, 0.87);
+}
+
+* {
+        color: var(--foreground-color);
+        font-family: "Inter", sans-serif;
+        box-sizing: border-box;
+}
+
+.emoji {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.2em;
+}
+
+html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+}
+
+.wrapper {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        background-color: #222222;
+        padding: 2rem;
+}
+
+.header {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4rem;
+        position: sticky;
+        border-radius: 0.5rem;
+        background-color: #333333;
+        border-bottom: 0.25rem solid #555555;
+        list-style: none;
+        align-items: center;
+        display: flex;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        gap: 2rem;
+}
+
+.header li {
+        display: flex;
+        align-items: center;
+        min-width: 2rem;
+        max-width: 10rem;
+        height: 100%;
+}
+
+.header li a {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: border-bottom 100ms ease-out;
+        border-bottom: 0.15rem solid transparent;
+        font-size: larger;
+        padding: 0.25rem;
+        gap: 0.5rem;
+}
+
+.header li:hover a {
+        border-bottom: 0.15rem solid var(--foreground-color);
+}
+
+.header li a span {
+        width: calc(100%);
+        white-space: nowrap;
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+}
+
+main {
+        width: 100%;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-bottom: 2rem;
+        padding-top: 1rem;
+}
