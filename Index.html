@@ -213,13 +213,11 @@
                         loadPage(window.location.pathname);
                 });
 
-                /*
-                const redirect = sessionStorage.getItem("redirect");
-                if (redirect) {
-                        sessionStorage.removeItem("redirect");
-                        history.replaceState(null, "", redirect);
+                const searchParameters = new URLSearchParams(window.location.search);
+                if (searchParameters.has("redirect")) {
+                        const redirectPath = searchParameters.get("redirect");
+                        history.replaceState({}, "", redirectPath);
                 }
-                */
 
                 loadPage();
         </script>

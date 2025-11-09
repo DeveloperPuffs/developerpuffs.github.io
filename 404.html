@@ -1,6 +1,3 @@
 <script>
-        const redirectDestination = "/" + window.location.pathname + window.location.search + window.location.hash;
-        sessionStorage.setItem("redirect", redirectDestination);
-        console.info("Redirect:", redirectDestination);
-        window.location.replace("/");
+        window.location.replace(`/Index.html?redirect=${encodeURIComponent(location.pathname + location.search + location.hash)}`);
 </script>
