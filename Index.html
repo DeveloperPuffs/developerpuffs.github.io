@@ -103,129 +103,122 @@
         </head>
         <body>
                 <div class="wrapper">
-                        <ol class="header">
-                                <li>
-                                        <a href="/home" class="navigation-link">
-                                                <img src="PlasmaPuffs.png" alt="PlasmaPuffs Icon" class="emoji"></img>
-                                                <span>Home</span>
-                                        </a>
-                                </li>
-                                <li>
+                        <header>
+                                <nav>
                                         <a href="/sokobee" class="navigation-link">
                                                 <img src="Hexagon.png" alt="Hexagon Tile" class="emoji"></img>
                                                 <span>Sokobee</span>
                                         </a>
-                                </li>
-                        </ol>
+                                </nav>
+                        </header>
                         <main id="content">
+                                <section id="home-section" hidden>
+                                        <h1>Welcome!</h1>
+                                        <p>This is the home page directly in index.html.</p>
+                                </section>
+                                <section id="page-section" hidden>
+                                </section>
+                                <section id="void-section" hidden>
+                                        <!-- TODO: Display more information about the error -->
+                                        <h2>Page not found</h2>
+                                        <p>The page couldn't be loaded.</p>
+                                </section>
                         </main>
                 </div>
         </body>
         <script>
-                (async () => {
-                        await new Promise(resolve => {
-                                window.onload = resolve;
-                        });
+                const homeSection = document.getElementById("home-section");
+                const pageSection = document.getElementById("page-section");
+                const voidSection = document.getElementById("void-section");
 
-                        const deepFreeze = object => {
-                                if (object === undefined) {
-                                        return object;
-                                }
+                function displaySection(section) {
+                        console.info(`Displaying section: ${section}...`);
+                        homeSection.hidden = true;
+                        pageSection.hidden = true;
+                        voidSection.hidden = true;
+                        section.hidden = false;
+                }
 
-                                Object.freeze(object);
+                async function loadPage(path = window.location.pathname) {
+                        console.info(`Loading page from path: "${path}"...`);
 
-                                for (const property of Object.getOwnPropertyNames(object)) {
-                                        const value = object[property];
-
-                                        if (value === undefined) {
-                                                return;
-                                        }
-
-                                        const type = typeof value;
-                                        if (type === "object" || type === "function") {
-                                                if (!Object.isFrozen(value)) {
-                                                        deepFreeze(value);
-                                                }
-                                        }
-                                }
-
-                                return object;
-                        };
-
-                        const pages = deepFreeze({
-                                "/home": "Home.html",
-                                "/sokobee": "Sokobee.js"
-                        });
-
-                        const searchParameters = new URLSearchParams(window.location.search);
-                        if (searchParameters.has("redirect")) {
-                                const redirectPath = searchParameters.get("redirect");
-                                history.replaceState({}, "", redirectPath);
+                        // The path is "/Index.html" when running locally (during development) but
+                        // I also need to include "/" since static servers treat "/Index.html" as
+                        // the default page (or "/") in a directory.
+                        if (path === "/" || path.endsWith("/Index.html")) {
+                                displaySection(homeSection);
+                                return;
                         }
 
-                        const content = document.getElementById("content");
-                        const fallbackPage = () => {
-                                // This could be an error while loading the page, or the page being not found (404)
-                                // Maybe add more information for the type of error and/or use <template>s in <main>
-                                content.innerHTML = "<h1>Error loading page</h1>";
-                                console.error("Failed to load page: Unknown error");
-                        };
+                        let pageFile;
+                        switch (path) {
+                                case "/sokobee": {
+                                        pageFile = "Sokobee.html";
+                                        break
+                                }
 
-                        const loadPage = async path => {
-                                console.info(`Loading page "${path}"...`);
+                                default: {
+                                        displaySection(voidSection);
+                                        return;
+                                }
+                        }
 
-                                const page = pages[path];
-                                if (page === undefined) {
-                                        fallbackPage();
+                        try {
+                                const response = await fetch(pageFile);
+                                if (response.ok === false) {
+                                        console.error(`Failed to load page ${pageFile}: ${response.status} ${response.statusText}`);
+                                        displaySection(voidSection);
                                         return;
                                 }
 
-                                try {
-                                        const response = await fetch(page);
-                                        if (response.ok === false) {
-                                                console.error(`Failed to load page ${url}: ${response.status} ${response.statusText}`);
-                                                fallbackPage();
-                                                return;
+                                displaySection(pageSection);
+                                pageSection.innerHTML = await response.text();
+
+                                // Scripts added directly to the HTML as strings don't get executed so I
+                                // need to replace them my themselves manually to execute each script.
+                                const scripts = pageSection.querySelectorAll("script");
+                                for (const script of scripts) {
+                                        const newScript = document.createElement("script");
+
+                                        if (script.textContent) {
+                                                newScript.textContent = script.textContent;
                                         }
 
-                                        content.innerHTML = await response.text();
-
-                                        // Scripts added directly to the HTML as strings don't get executed so I
-                                        // need to replace them my themselves manually to execute each script.
-                                        const scripts = container.querySelectorAll("script");
-                                        for (const script of scripts) {
-                                                const newScript = document.createElement("script");
-
-                                                if (script.textContent) {
-                                                        newScript.textContent = script.textContent;
-                                                }
-
-                                                for (const attr of script.attributes) {
-                                                        newScript.setAttribute(attr.name, attr.value);
-                                                }
-
-                                                script.parentNode.replaceChild(newScript, script);
+                                        for (const attribute of script.attributes) {
+                                                newScript.setAttribute(attribute.name, attribute.value);
                                         }
-                                } catch (error) {
-                                        console.error(`Navigation error: ${error}`);
-                                        fallbackPage();
-                                        return;
+
+                                        script.parentNode.replaceChild(newScript, script);
                                 }
-                        };
+                        } catch (error) {
+                                console.error(`Navigation error: ${error}`);
+                                displaySection(voidSection);
+                                return;
+                        }
+                };
 
-                        document.querySelectorAll("a.navigation-link").forEach(link => {
-                                link.addEventListener("click", event => {
-                                        event.preventDefault();
+                // This overrides the behavior of the page links to correctly navigate to the
+                // corresponding page using the browser's history API.
+                document.querySelectorAll("a.navigation-link").forEach(link => {
+                        link.addEventListener("click", event => {
+                                event.preventDefault();
 
-                                        const path = link.getAttribute("href");
-                                        history.pushState({}, "", path);
-                                        loadPage(path);
-                                });
+                                const path = link.getAttribute("href");
+                                history.pushState({}, "", path);
+                                loadPage(path);
                         });
+                });
 
-                        window.addEventListener("popstate", () => {
-                                loadPage(window.location.pathname);
-                        });
-                })();
+                window.addEventListener("popstate", () => {
+                        loadPage(window.location.pathname);
+                });
+
+                const redirect = sessionStorage.getItem("redirect");
+                if (redirect) {
+                        sessionStorage.removeItem("redirect");
+                        history.replaceState(null, "", redirect);
+                }
+
+                loadPage();
         </script>
 </html>
