@@ -1,3 +1,6 @@
 <script>
-        window.location.replace(`/Index.html?redirect=${encodeURIComponent(location.pathname + location.search + location.hash)}`);
+        // This redirects to the main "Index.html" file with a query parameter "?redirect=" to keep
+        // track of the current path.
+        const redirectPath = encodeURIComponent(location.pathname + location.search + location.hash);
+        window.location.replace(`/Index.html?redirect=${redirectPath}`);
 </script>

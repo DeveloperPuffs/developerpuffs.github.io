@@ -8,23 +8,27 @@
                 <style>
                         @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+                        :root {
+                                --background-color-1: rgba( 25,  25,  25, 1.0);
+                                --background-color-2: rgba( 10,  10,  10, 1.0);
+                                --foreground-color-1: rgba(255, 255, 255, 0.87);
+                                --foreground-color-2: rgba(255, 255, 255, 0.60);
+                                --foreground-color-3: rgba(255, 255, 255, 0.38);
+                        }
+
+                        * {
+                                color: var(--foreground-color-1);
+                                font-family: "Inter", sans-serif;
+                                box-sizing: border-box;
+                        }
+
                         html, body {
                                 margin: 0;
                                 padding: 0;
                                 width: 100%;
                                 height: 100%;
                                 overflow: hidden;
-                                background-color: #222222;
-                        }
-
-                        :root {
-                                --foreground-color: rgba(255, 255, 255, 0.87);
-                        }
-
-                        * {
-                                color: var(--foreground-color);
-                                font-family: "Inter", sans-serif;
-                                box-sizing: border-box;
+                                background-color: var(--background-color-1);
                         }
 
                         .emoji {
@@ -33,98 +37,92 @@
                                 vertical-align: -0.2em;
                         }
 
-                        .wrapper {
-                                width: 100%;
-                                height: 100%;
-                                overflow-y: auto;
-                                background-color: #222222;
-                                padding: 2rem;
-                        }
-
                         .header {
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 4rem;
                                 position: sticky;
-                                border-radius: 0.5rem;
-                                background-color: #333333;
-                                border-bottom: 0.25rem solid #555555;
-                                list-style: none;
-                                align-items: center;
-                                display: flex;
-                                padding-left: 2rem;
-                                padding-right: 2rem;
-                                padding-top: 1rem;
-                                padding-bottom: 1rem;
-                                gap: 2rem;
-                        }
-
-                        .header li {
-                                display: flex;
-                                align-items: center;
-                                min-width: 2rem;
-                                max-width: 10rem;
-                                height: 100%;
-                        }
-
-                        .header li a {
+                                top: 0;
                                 width: 100%;
+                                height: 5rem;
+                                background-color: var(--background-color-2);
                                 display: flex;
                                 align-items: center;
+                                padding: 0 1rem;
+                                z-index: 10;
+                        }
+
+                        .header > nav {
+                                display: flex;
+                                width: 100%;
+                                align-items: center;
+                        }
+
+                        .header > nav > .logo {
+                                flex: 0 0 auto;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 1rem;
+                                max-height: 100%;
+                                user-select: none;
+                        }
+
+                        .header > nav > .logo > img {
+                                height: 100%;
+                                width: auto;
+                                max-width: 3rem;
+                                object-fit: contain;
+                        }
+
+                        .header > nav > a:not(.logo) {
+                                margin-left: 2rem;
+                                user-select: none;
                                 text-decoration: none;
-                                transition: border-bottom 100ms ease-out;
-                                border-bottom: 0.15rem solid transparent;
-                                font-size: larger;
-                                padding: 0.25rem;
+                                border-bottom: 2px solid transparent;
+                                display: flex;
+                                align-items: center;
+                                height: 100%;
                                 gap: 0.5rem;
                         }
 
-                        .header li:hover a {
-                                border-bottom: 0.15rem solid var(--foreground-color);
-                        }
-
-                        .header li a span {
-                                width: calc(100%);
-                                white-space: nowrap;
-                                display: inline-block;
-                                text-overflow: ellipsis;
-                                overflow: hidden;
+                        .header > nav > a:not(.logo):hover {
+                                border-bottom: 2px solid var(--foreground-color-1);
                         }
 
                         main {
                                 width: 100%;
-                                padding-left: 2rem;
-                                padding-right: 2rem;
-                                padding-bottom: 2rem;
-                                padding-top: 1rem;
+                                height: calc(100% - 4rem);
+                                overflow-y: auto;
+                        }
+
+                        main > section {
+                                padding-top: 2rem;
+                                padding-left: 4rem;
+                                padding-right: 4rem;
                         }
                 </style>
         </head>
         <body>
-                <div class="wrapper">
-                        <header>
-                                <nav>
-                                        <a href="/sokobee" class="navigation-link">
-                                                <img src="Hexagon.png" alt="Hexagon Tile" class="emoji"></img>
-                                                <span>Sokobee</span>
-                                        </a>
-                                </nav>
-                        </header>
-                        <main id="content">
-                                <section id="home-section" hidden>
-                                        <h1>Welcome!</h1>
-                                        <p>This is the home page directly in index.html.</p>
-                                </section>
-                                <section id="page-section" hidden>
-                                </section>
-                                <section id="void-section" hidden>
-                                        <!-- TODO: Display more information about the error -->
-                                        <h2>Page not found</h2>
-                                        <p>The page couldn't be loaded.</p>
-                                </section>
-                        </main>
-                </div>
+                <header class="header">
+                        <nav>
+                                <a href="/" class="logo" data-navigation-link>
+                                        <img src="PlasmaPuffs.png" alt="PlasmaPuffs Icon"></img>
+                                </a>
+                                <a href="/sokobee" data-navigation-link>Sokobee</a>
+                                <a href="/nothing" data-navigation-link>Testing</a>
+                        </nav>
+                </header>
+                <main id="content">
+                        <section id="home-section" hidden>
+                                <h1>Welcome</h1>
+                                <p>This is the home page!</p>
+                        </section>
+                        <section id="page-section" hidden>
+                        </section>
+                        <section id="void-section" hidden>
+                                <!-- TODO: Display more information about the error -->
+                                <h2>Page not found</h2>
+                                <p>The page couldn't be loaded.</p>
+                        </section>
+                </main>
         </body>
         <script>
                 const homeSection = document.getElementById("home-section");
@@ -197,22 +195,29 @@
                         }
                 };
 
-                // This overrides the behavior of the page links to correctly navigate to the
-                // corresponding page using the browser's history API.
-                document.querySelectorAll("a.navigation-link").forEach(link => {
-                        link.addEventListener("click", event => {
-                                event.preventDefault();
+                // When a navigation link is clicked, the behavior is overriden to correctly use
+                // the browser's history API to change the page.
+                document.addEventListener("click", event => {
+                        const link = event.target.closest("[data-navigation-link]");
+                        if (!link) {
+                                return;
+                        }
 
-                                const path = link.getAttribute("href");
-                                history.pushState({}, "", path);
-                                loadPage(path);
-                        });
+                        event.preventDefault();
+
+                        const path = link.getAttribute("href");
+                        history.pushState({}, "", path);
+                        loadPage(path);
                 });
 
                 window.addEventListener("popstate", () => {
                         loadPage(window.location.pathname);
                 });
 
+                // The 404 fallback script adds a query parameter before redirecting to this page
+                // to keep track of the current page (when reloading on github pages). If the
+                // paramter contains a value, this will set the state correctly with the history
+                // API.
                 const searchParameters = new URLSearchParams(window.location.search);
                 if (searchParameters.has("redirect")) {
                         const redirectPath = searchParameters.get("redirect");
