@@ -46,6 +46,25 @@
                                 font-family: Consolas, monospace;
                         }
 
+                        button, .button {
+                                background: var(--background-color-3);
+                                color: var(--foreground-color-1);
+                                border: none;
+                                padding-top: 0.5rem;
+                                padding-bottom: 0.5rem;
+                                padding-left: 1.5rem;
+                                padding-right: 1.5rem;
+                                font-size: medium;
+                                text-decoration: none;
+                                border-radius: 2.5px;
+                                user-select: none;
+                                cursor: pointer;
+                        }
+
+                        button:hover, .button:hover {
+                                opacity: var(--opacity-2);
+                        }
+
                         details > summary {
                                 user-select: none;
                                 cursor: pointer;
@@ -220,24 +239,6 @@
                         .void-actions {
                                 display: flex;
                                 gap: 1rem;
-                        }
-
-                        button, .button {
-                                background: var(--background-color-3);
-                                color: var(--foreground-color-1);
-                                border: none;
-                                padding-top: 0.5rem;
-                                padding-bottom: 0.5rem;
-                                padding-left: 1.5rem;
-                                padding-right: 1.5rem;
-                                font-size: medium;
-                                text-decoration: none;
-                                border-radius: 2.5px;
-                                cursor: pointer;
-                        }
-
-                        button:hover, .button:hover {
-                                opacity: var(--opacity-2);
                         }
                 </style>
         </head>
