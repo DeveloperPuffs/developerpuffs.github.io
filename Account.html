@@ -1,16 +1,31 @@
-<section id="details-section" hidden>
-        <h1>Account</h1>
-        <p>[information...]</p>
+<section id="account-details-section" hidden>
+        <img id="avatar-image" src="Assets/Icons/PlasmaPuffs.png" width="256" height="256" alt=""/>
+        <h2 id="username-field">Username</h2>
+        <p id="email-field">email@example.com</p>
+        <div class="account-information">
+                <p>
+                        <b>Email Status:</b>
+                        <code id="email-status-field">Verified</code>
+                </p>
+                <p>
+                        <b>Member Since:</b>
+                        <code id="member-since-field">Jan 3, 2025</code>
+                </p>
+                <p>
+                        <b>Last Login:</b>
+                        <code id="last-login-field">Today</code>
+                </p>
+        </div>
         <button id="sign-out-button">Sign Out</button>
 </section>
 <section id="sign-in-section" hidden>
         <h1>Sign In</h1>
-        <label for="sign-in-email"><strong>Email:</strong></label>
+        <label for="sign-in-email"><b>Email:</b></label>
         <br>
         <input id="sign-in-email" name="email" type="email" placeholder="Email">
         <br>
         <br>
-        <label for="sign-in-password"><strong>Password:</strong></label>
+        <label for="sign-in-password"><b>Password:</b></label>
         <br>
         <input id="sign-in-password" name="password" type="password" placeholder="Password">
         <br>
@@ -18,21 +33,24 @@
         <button id="sign-in-button">Sign In</button>
         <br>
         <br>
-        <p>
-                <a id="sign-up-link">Create a new account instead</a>
-        </p>
+        <br>
+        <a id="sign-up-link" class="link" style="user-select: none;">Sign up for a new account</a>
 </section>
 <section id="sign-up-section" hidden>
         <h1>Sign Up</h1>
-        <label for="sign-up-email"><strong>Email:</strong></label>
+        <label for="sign-up-email"><b>Email:</b></label>
         <br>
         <input id="sign-up-email" name="memail" type="email" placeholder="Email">
         <br>
         <br>
-        <label for="sign-up-email"><strong>Password:</strong></label>
+        <label for="sign-up-email"><b>Password:</b></label>
         <br>
         <input id="sign-up-password" name="password" type="password" placeholder="Password">
         <br>
         <br>
         <button id="sign-up-button">Sign Up</button>
+        <br>
+        <br>
+        <br>
+        <a id="sign-in-link" class="link" style="user-select: none;">Sign in to existing account</a>
 </section>

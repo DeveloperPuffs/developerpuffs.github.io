@@ -111,8 +111,9 @@ details > *:not(summary) {
         -ms-user-drag: none;
 }
 
-.clickable {
+.link {
         cursor: pointer;
+        text-decoration: underline;
 }
 
 .header {

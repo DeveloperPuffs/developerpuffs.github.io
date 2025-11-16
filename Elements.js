@@ -57,7 +57,13 @@ export const DOM = {
                 section: "#page-section",
                 account: {
                         details: {
-                                section: "#details-section",
+                                section: "#account-details-section",
+                                avatarImage: "#avatar-image",
+                                usernameField: "#username-field",
+                                emailField: "#email-field",
+                                emailStatusField: "#email-status-field",
+                                memberSinceField: "#member-since-field",
+                                lastLoginField: "#last-login-field",
                                 signOutButton: "#sign-out-button"
                         },
                         signIn: {
@@ -71,7 +77,8 @@ export const DOM = {
                                 section: "#sign-up-section",
                                 emailInput: "#sign-up-email",
                                 passwordInput: "#sign-up-password",
-                                signUpButton: "#sign-up-button"
+                                signUpButton: "#sign-up-button",
+                                signInLink: "#sign-in-link"
                         }
                 }
         }

@@ -15,58 +15,39 @@ function displaySection(section) {
         section.hidden = false;
 };
 
-export const pagePaths = {
-        home: "/",
-        account: "/account",
-        sokobee: "/sokobee"
+export const pages = {
+        home: {
+                path: "/",
+                file: null
+        },
+        account: {
+                path: "/account",
+                file: "Account.html"
+        },
+        sokobee: {
+                path: "/sokobee",
+                file: "Sokobee.html"
+        }
 };
 
-deepFreeze(pagePaths);
+deepFreeze(pages);
 
-const pageFiles = {
-        [pagePaths.account]: "Account.html",
-        [pagePaths.sokobee]: "Sokobee.html"
-};
-
-deepFreeze(pageFiles);
-
-const pageCallbacks = {};
-
-export function registerPageCallback(path, callback) {
-        if (pageCallbacks[path] === undefined) {
-                pageCallbacks[path] = [];
-        }
-
-        pageCallbacks[path].push(callback);
+const listeners = new Set();
+export function onPageLoad(callback) {
+        listeners.add(callback);
 }
 
-export function removePageCallback(callback) {
-        for (const [path, callbacks] in Object.entries(pageCallbacks)) {
-                pageCallbacks[path] = callbacks.filter(pageCallback => pageCallback !== callback);
-        }
-}
-
-export async function loadPage(path = window.location.pathname) {
-        // The path is "/Index.html" when running locally (during development) but I also need to
-        // include "/" since static servers treat "/Index.html" as the default page (or "/") in a
-        // directory.
-        if (path === "/" || path.endsWith("/Index.html")) {
+export async function loadPage(page) {
+        if (page === pages.home) {
                 displaySection(DOM.home.section);
                 return;
         }
 
-        const pageFile = pageFiles[path];
-        if (pageFile === undefined) {
-                displaySection(DOM.void.section);
-                displayError(path, "Path is not recognized or does not correspond to any existing page.");
-                return;
-        }
-
         try {
-                const response = await fetch(pageFile);
+                const response = await fetch(page.file);
                 if (response.ok === false) {
                         displaySection(DOM.void.section);
-                        displayError(path, `${response.status} ${response.statusText}`);
+                        displayError(page.path, `File fetch error ${response.status}: ${response.statusText}`);
                         return;
                 }
 
@@ -74,19 +55,36 @@ export async function loadPage(path = window.location.pathname) {
                 DOM.page.section.innerHTML = await response.text();
         } catch (error) {
                 displaySection(DOM.void.section);
-                displayError(path, `Navigation error: ${error}`);
+                displayError(page.path, `Navigation error: ${error}`);
                 return;
         }
 
-        const callbacks = pageCallbacks[path];
-        if (callbacks !== undefined) {
-                for (const callback of callbacks) {
-                        callback();
-                }
+        for (const callback of listeners) {
+                callback(page);
         }
 }
 
 export async function setup() {
+        async function navigateTo(path) {
+                // The path is "/Index.html" when running locally (during development) but I also need to
+                // include "/" since static servers treat "/Index.html" as the default page (or "/") in a
+                // directory.
+                if (path === "/" || path.endsWith("/Index.html")) {
+                        await loadPage(pages.home);
+                        return;
+                }
+
+                for (const page of Object.values(pages)) {
+                        if (page.path === path) {
+                                await loadPage(page);
+                                return;
+                        }
+                }
+
+                displaySection(DOM.void.section);
+                displayError(path, "Path is not recognized or does not correspond to any existing page.");
+        }
+
         // When a navigation link is clicked, the behavior is overriden to correctly use the browser's
         // history API to change the page.
         document.addEventListener("click", async event => {
@@ -99,12 +97,12 @@ export async function setup() {
 
                 const path = link.getAttribute("href");
                 history.pushState({}, "", path);
-                await loadPage(path);
+                await navigateTo(path);
         });
 
         // Update the state of the page for when the forward or back buttons are pressed.
         window.addEventListener("popstate", async () => {
-                await loadPage(window.location.pathname);
+                await navigateTo(window.location.pathname);
         });
 
         // The 404 fallback script adds a query parameter before redirecting to this page to keep track of
@@ -117,5 +115,5 @@ export async function setup() {
         }
 
         // Load the home page initially to finish setting up
-        await loadPage();
+        await loadPage(pages.home);
 }
