@@ -96,6 +96,7 @@ export async function setup() {
                 event.preventDefault();
 
                 const path = link.getAttribute("href");
+                console.log("Clicked link href:", path);
                 history.pushState({}, "", path);
                 await loadPath(path);
         });

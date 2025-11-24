@@ -1,19 +1,7 @@
 <section id="profile-section" hidden>
-        <img id="profile-picture" src="Assets/Icons/PlasmaPuffs.png" width="256" height="256" alt="Profile Picture"/>
+        <input type="file" id="profile-picture-input" accept=".png, .jpg, .jpeg, .webp" style="display: none;">
+        <img id="profile-picture" src="Assets/Icons/ProfilePicture.png" width="256" height="256" alt="Profile Picture" class="clickable unselectable undraggable"/>
         <h2 id="username-field">Username</h2>
-        <p id="email-field">email@example.com</p>
-        <p>
-                <b>Email Status:</b>
-                <code id="email-status-field">Verified</code>
-        </p>
-        <p>
-                <b>Member Since:</b>
-                <code id="member-since-field">Jan 3, 2025</code>
-        </p>
-        <p>
-                <b>Last Login:</b>
-                <code id="last-login-field">Today</code>
-        </p>
         <button id="sign-out-button">Sign Out</button>
 </section>
 <section id="profile-setup-section" hidden>

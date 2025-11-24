@@ -111,6 +111,14 @@ details > *:not(summary) {
         -ms-user-drag: none;
 }
 
+.unselectable {
+        user-select: none;
+}
+
+.clickable {
+        cursor: pointer;
+}
+
 .link {
         cursor: pointer;
         text-decoration: underline;

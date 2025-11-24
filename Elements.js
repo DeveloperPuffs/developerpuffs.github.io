@@ -42,8 +42,7 @@ function applyElementGetters(object) {
 
 export const DOM = {
         header: {
-                profileIcon: "#profile-icon",
-                defaultIcon: "#default-icon"
+                profilePictureIcon: "#profile-picture-icon"
         },
         home: {
                 section: "#home-section",
@@ -59,12 +58,9 @@ export const DOM = {
                 account: {
                         profile: {
                                 section: "#profile-section",
+                                profilePictureInput: "#profile-picture-input",
                                 profilePicture: "#profile-picture",
                                 usernameField: "#username-field",
-                                emailField: "#email-field",
-                                emailStatusField: "#email-status-field",
-                                memberSinceField: "#member-since-field",
-                                lastLoginField: "#last-login-field",
                                 signOutButton: "#sign-out-button"
                         },
                         profileSetup: {
@@ -74,7 +70,7 @@ export const DOM = {
                         },
                         profileError: {
                                 section: "#profile-error-section",
-                                retryLoadButton: "retry-load-button"
+                                retryLoadButton: "#retry-load-button"
                         },
                         signIn: {
                                 section: "#sign-in-section",

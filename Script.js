@@ -7,22 +7,22 @@ import { DOM } from "./Elements.js";
 
 await Router.setup();
 
-DOM.void.retryButton.addEventListener("click", async () => {
-        await Router.loadPath();
-});
-
 Account.setup();
 
 Backend.registerCallback(event => {
-        if (event === Backend.Event.PROFILE_LOADED) {
-                // Set profile picture icon
-                return;
-        }
-
-        if (event === Backend.Event.SIGNED_OUT) {
-                // Set profile picture icon
-                return;
+        switch (event) {
+                case Backend.Event.PROFILE_LOADED:
+                case Backend.Event.PROFILE_CREATED:
+                case Backend.Event.PROFILE_UPDATED:
+                case Backend.Event.SIGNED_OUT: {
+                        // Set profile picture icon
+                        return;
+                }
         }
 });
 
 await Backend.loadAccount();
+
+DOM.void.retryButton.addEventListener("click", async () => {
+        await Router.loadPath();
+});
