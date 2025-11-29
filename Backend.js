@@ -132,7 +132,8 @@ export function getAvatarUrl(profile = accountProfile) {
                 .from("avatars")
                 .getPublicUrl(profile.identifier);
 
-        return avatarUrlQuery.data.publicUrl;
+        // Bust the cache by using a timestamp to get the newest version of the image
+        return `${avatarUrlQuery.data.publicUrl}?v=${Date.now()}`;
 }
 
 export async function uploadAvatar(image) {

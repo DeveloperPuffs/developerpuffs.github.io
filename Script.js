@@ -15,8 +15,14 @@ Backend.registerCallback(event => {
                 case Backend.Event.PROFILE_CREATED:
                 case Backend.Event.PROFILE_UPDATED:
                 case Backend.Event.SIGNED_OUT: {
-                        // Set profile picture icon
-                        return;
+                        const accountProfile = Backend.getAccountProfile();
+                        if (accountProfile === null) {
+                                DOM.header.profilePictureIcon.src = "Assets/Icons/ProfilePicture.png";
+                                break;
+                        }
+
+                        DOM.header.profilePictureIcon.src = Backend.getAvatarUrl();
+                        break;
                 }
         }
 });
