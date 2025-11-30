@@ -60,12 +60,21 @@ button *, .button * {
         user-select: none;
 }
 
-input {
+input[type="text"] {
         padding: 0.5rem;
         border-radius: 1px;
         background-color: var(--background-color-2);
+        margin-top: 0.25rem;
+        margin-bottom: 1rem;
+        margin-right: 0.25rem;
         border: none;
         outline: none;
+}
+
+input[type="file"] {
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        margin-right: 0.25rem;
 }
 
 details > summary {
@@ -209,6 +218,7 @@ main > section {
         margin-left: 5rem;
         margin-right: 5rem;
         margin-top: 2.5rem;
+        margin-bottom: 5rem;
 }
 
 .home-center {

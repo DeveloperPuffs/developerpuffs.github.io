@@ -46,6 +46,7 @@ export const DOM = {
         },
         home: {
                 section: "#home-section",
+                plasmapuffsIcon: "#plasmapuffs-icon"
         },
         void: {
                 section: "#void-section",

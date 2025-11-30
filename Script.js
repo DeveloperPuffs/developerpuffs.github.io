@@ -5,10 +5,19 @@ import * as Backend from "./Backend.js";
 import * as Account from "./Account.js";
 import { DOM } from "./Elements.js";
 
-await Router.setup();
+function animatePlasmapuffs(timestamp) {
+        const scaleX = 1 + Math.cos(timestamp / 200) / 50;
+        const scaleY = 1 + Math.sin(timestamp / 200) / 50;
+        DOM.home.plasmapuffsIcon.style.transform = `scale(${scaleX}, ${scaleY})`;
+
+        window.requestAnimationFrame(animatePlasmapuffs);
+}
+
+window.requestAnimationFrame(animatePlasmapuffs);
 
 Account.setup();
 
+// When the profile or authentication state gets updated, refresh the profile picture icon in the header
 Backend.registerCallback(event => {
         switch (event) {
                 case Backend.Event.PROFILE_LOADED:
@@ -27,6 +36,7 @@ Backend.registerCallback(event => {
         }
 });
 
+await Router.setup();
 await Backend.loadAccount();
 
 DOM.void.retryButton.addEventListener("click", async () => {
